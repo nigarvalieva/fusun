@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './MovieItem.css';
 
 class MovieItem extends Component {
+    addToFavs = () => {
+        document.querySelector("")
+    }
     render() {
         const { title, year, poster } = this.props;
         return (

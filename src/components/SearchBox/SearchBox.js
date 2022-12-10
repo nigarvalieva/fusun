@@ -7,6 +7,11 @@ class SearchBox extends Component {
     }
     searchLineChangeHandler = (e) => {
         this.setState({ searchLine: e.target.value });
+        console.log(e.target.value)
+        fetch(`https://www.omdbapi.com/?s=${e.target.value}&apikey=a6408ff1`)
+        .then(res=>res.json()).then(data => {
+                console.log(data.name)
+        })
     }
     searchBoxSubmitHandler = (e) => {
         e.preventDefault();
