@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './SearchBox.css';
+import { connect } from 'react-redux';
+import reducer from '../../redux/reducers/reducer';
+import store from '../../redux/reducers/store';
 
 class SearchBox extends Component {
     state = {
@@ -7,15 +10,13 @@ class SearchBox extends Component {
     }
     searchLineChangeHandler = (e) => {
         this.setState({ searchLine: e.target.value });
-        console.log(e.target.value)
-        fetch(`https://www.omdbapi.com/?s=${e.target.value}&apikey=a6408ff1`)
-        .then(res=>res.json()).then(data => {
-                console.log(data.name)
-        })
+        store.dispatch(reducer(this.state.searchLine));
     }
+
     searchBoxSubmitHandler = (e) => {
         e.preventDefault();
     }
+
     render() {
         const { searchLine } = this.state;
 
@@ -45,4 +46,12 @@ class SearchBox extends Component {
     }
 }
  
-export default SearchBox;
+const mapDispatchToProps = dispatch => ({
+    reducer: (id) => dispatch(reducer(id))
+  });
+  const mapStateToProps = (state) => {
+    return {
+        goods: state.goods
+    }
+  };
+  export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);
