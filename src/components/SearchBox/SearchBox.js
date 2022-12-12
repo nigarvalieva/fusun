@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './SearchBox.css';
 import { connect } from 'react-redux';
-import reducer from '../../redux/reducers/reducer';
-import store from '../../redux/reducers/store';
+import findMovie from '../../redux/actions/action';
 
 class SearchBox extends Component {
     state = {
@@ -10,11 +9,12 @@ class SearchBox extends Component {
     }
     searchLineChangeHandler = (e) => {
         this.setState({ searchLine: e.target.value });
-        store.dispatch(reducer(this.state.searchLine));
     }
 
     searchBoxSubmitHandler = (e) => {
         e.preventDefault();
+        console.log('aaaaa',this.state.searchLine)
+        this.props.findMovie(this.state.searchLine)
     }
 
     render() {
@@ -22,7 +22,7 @@ class SearchBox extends Component {
 
         return (
             <div className="search-box">
-                <form className="search-box__form" onSubmit={this.searchBoxSubmitHandler}>
+                <div className="search-box__form" >
                     <label className="search-box__form-label">
                         Искать фильм по названию:
                         <input
@@ -34,24 +34,28 @@ class SearchBox extends Component {
                         />
                     </label>
                     <button
-                        type="submit"
+                        type="button"
+                        onClick={this.searchBoxSubmitHandler}
                         className="search-box__form-submit"
                         disabled={!searchLine}
                     >
                         Искать
                     </button>
-                </form>
+                </div>
             </div>
         );
     }
 }
- 
-const mapDispatchToProps = dispatch => ({
-    reducer: (id) => dispatch(reducer(id))
-  });
-  const mapStateToProps = (state) => {
+
+const mapStateToProps = (state) => {
     return {
-        goods: state.goods
+        movies: state.movies
     }
-  };
-  export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);
+};
+const mapDispatchToProps = dispatch => ({
+    findMovie: (name) => dispatch(findMovie(name))
+});
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);

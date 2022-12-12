@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './Favorites.css';
 import { connect } from "react-redux";
-import store from "../../redux/reducers/store"; 
-  
+import store from "../../redux/reducers/store";
+import { deleteFromFavorites } from '../../redux/actions/action';
 
 class Favorites extends Component {
     // state = {
@@ -12,11 +12,6 @@ class Favorites extends Component {
     //     ]
     // }
 
-    componentDidMount(){
-        store.subscribe(()=>{
-        if(store.getState().favorites.length !== 0) this.setState({movies: store.getState().favorites})
-        }) }
-
     render() {
         return (
             <div className="favorites">
@@ -24,10 +19,10 @@ class Favorites extends Component {
                 <ul className="favorites__list">
                     {this.props.favorites.map((item) => {
                         return (
-                        <div className="fav-item">
-                            <li key={item.id}>{item.title} ({item.year})</li>
-                            <button className="deleteItem">X</button>
-                        </div>
+                            <div className="fav-item" key={item.id}>
+                                <li>{item.title} ({item.year})</li>
+                                <button onClick={this.props.deleteFromFavorites(item.id)} className="deleteItem">X</button>
+                            </div>
                         );
                     })}
                 </ul>
@@ -39,9 +34,13 @@ class Favorites extends Component {
 
 const mapStateToProps = (state) => {
     return {
-      favorites: state.favorites,
+        favorites: state.favorites,
     };
-  };
+};
 
 
-  export default connect(mapStateToProps)(Favorites);
+const mapDispatchToProps = dispatch => ({
+    deleteFromFavorites: (id) => dispatch(deleteFromFavorites(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

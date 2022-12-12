@@ -4,9 +4,11 @@ import Header from '../../components/Header/Header';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import Movies from '../../components/Movies/Movies';
 import Favorites from '../../components/Favorites/Favorites';
+import { connect } from "react-redux";
 
 class MainPage extends Component {
     render() { 
+        console.log('outside',this.props.movies)
         return (
             <div className="main-page">
                 <Header />
@@ -16,7 +18,7 @@ class MainPage extends Component {
                             <SearchBox />
                         </div>
                         <div className="main-page__movies">
-                            <Movies />
+                            <Movies movies = {this.props.movies} />
                         </div>
                     </section>
                     <aside className="main-page__favorites">
@@ -27,5 +29,13 @@ class MainPage extends Component {
         );
     }
 }
- 
-export default MainPage;
+
+
+const mapStateToProps = (state) => {
+    return {
+      movies: state.movies,
+    };
+  };
+
+
+export default connect(mapStateToProps)(MainPage);

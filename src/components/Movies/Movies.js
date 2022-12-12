@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MovieItem from '../MovieItem/MovieItem';
 import './Movies.css';
 import { connect } from "react-redux";
+import findMovie from '../../redux/actions/action';
 
 class Movies extends Component {
     // state = { 
@@ -22,6 +23,10 @@ class Movies extends Component {
     //         }
     //     ]
     // }
+
+    componentDidMount(){
+        console.log('inside',this.props.movies)
+    }
     render() { 
         return ( 
             <ul className="movies">
@@ -41,5 +46,7 @@ const mapStateToProps = (state) => {
       movies: state.movies,
     };
   };
+
+
 
   export default connect(mapStateToProps)(Movies);

@@ -6,6 +6,7 @@ class MovieItem extends Component {
         document.querySelector("")
     }
     render() {
+        console.log("thisprops", this.props)
         const { title, year, poster } = this.props;
         return (
             <article className="movie-item">
